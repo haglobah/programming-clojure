@@ -36,7 +36,7 @@
               {
                 projectSrc = ./.;
                 name = "me.beathagenlocher.com/programming-clojure";
-                main-ns = "hello.core";
+                main-ns = "programming-clojure.core";
 
                 nativeImage.enable = true;
 
