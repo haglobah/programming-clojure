@@ -1,4 +1,4 @@
-(ns hello.core
+(ns prog.core
   (:require
     [clojure.string :as string])
   (:gen-class))
