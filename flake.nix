@@ -35,7 +35,7 @@
               # https://jlesquembre.github.io/clj-nix/options/
               {
                 projectSrc = ./.;
-                name = "me.lafuente/cljdemo";
+                name = "me.beathagenlocher.com/programming-clojure";
                 main-ns = "hello.core";
 
                 nativeImage.enable = true;
