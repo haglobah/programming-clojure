@@ -85,5 +85,46 @@
   (trampoline my-even? 10000000000)
   :rcf)
 
+; 6. Protocols and Datatypes
+
+(defprotocol IOFactory
+  "A protocol for that can be read from and written to."
+  (make-reader [this] "Creates a BufferedReader")
+  (make-writer [this] "Creates a BufferedWriter"))
+
+(extend java.io.InputStream
+  IOFactory
+  {:make-reades (fn [_src]
+                  (throw
+                   (IllegalArgumentException.
+                    "Can't open as an OutputStream.")))
+   :make-writer (fn [dst]
+                  (-> dst java.io.OutputStreamWriter. java.io.BufferedWriter.))})
+
+(extend-type java.io.File
+  IOFactory
+  (make-reader [src]
+    (make-reader (java.io.FileInputStream. src)))
+  (make-writer [dst]
+    (make-writer (java.io.FileOutputStream. dst))))
+
+(extend-protocol IOFactory
+  java.net.Socket
+  (make-reader [src]
+    (make-reader (.getInputStream src)))
+  (make-writer [dst]
+    (make-writer (.getOutputStream dst)))
+  
+  java.net.URL
+  (make-reader [src]
+    (make-reader (if (= "file" .getProtocol src)
+                   (-> src (.getPath java.io.FileInputStream.))
+                   (.openStream src))))
+  (make-writer [dst]
+    (make-writer (if (= "file" .getProtocol dst)
+                   (-> dst (.getPath java.io.FileInputStream.))
+                   (throw (IllegalArgumentException. "Can't write to non-file URL")))))
+  )
+
 (defn -main [& _args]
   (println (countdown [] 10)))
