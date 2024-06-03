@@ -115,15 +115,15 @@
   (make-writer [dst]
     (make-writer (.getOutputStream dst)))
   
-  java.net.URL
-  (make-reader [src]
-    (make-reader (if (= "file" .getProtocol src)
-                   (-> src (.getPath java.io.FileInputStream.))
-                   (.openStream src))))
-  (make-writer [dst]
-    (make-writer (if (= "file" .getProtocol dst)
-                   (-> dst (.getPath java.io.FileInputStream.))
-                   (throw (IllegalArgumentException. "Can't write to non-file URL")))))
+  ;; java.net.URL
+  ;; (make-reader [src]
+  ;;   (make-reader (if (= "file" .getProtocol src)
+  ;;                  (-> src (.getPath java.io.FileInputStream.))
+  ;;                  (.openStream src))))
+  ;; (make-writer [dst]
+  ;;   (make-writer (if (= "file" .getProtocol dst)
+  ;;                  (-> dst (.getPath java.io.FileInputStream.))
+  ;;                  (throw (IllegalArgumentException. "Can't write to non-file URL")))))
   )
 
 (defn -main [& _args]

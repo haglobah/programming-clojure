@@ -1,2 +1,11 @@
 {:deps {org.clojure/clojure {:mvn/version "1.11.1"}}
- :paths ["src"]}
+
+ :paths ["src" "../doc"]
+
+ :aliases
+ {:codox {:extra-deps {codox/codox {:mvn/version "0.10.8"}}
+          :main-opts ["-m" "codox.main"]
+          :exec-fn codox.main/generate-docs
+          :exec-args {:source-paths ["src" "../doc"]
+                      :doc-paths ["../doc"]
+                      :output-path "docs"}}}}
